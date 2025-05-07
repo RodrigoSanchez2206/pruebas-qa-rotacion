@@ -24,8 +24,8 @@ Este repositorio incluye todas las pruebas automatizadas del proyecto de rotaci√
 
 2.  **Clonar el Repositorio:**
     ```bash
-    git clone [https://github.com/RodrigoSanchez2206/pruebas-qa-rotacion.git](https://github.com/RodrigoSanchez2206/pruebas-qa-rotacion.git)
-    cd tu_proyecto
+    git clone https://github.com/RodrigoSanchez2206/pruebas-qa-rotacion.git
+    cd
     ```
 
 3.  **Crear y Activar el Entorno Virtual (Recomendado):**
