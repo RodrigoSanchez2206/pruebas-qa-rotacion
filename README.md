@@ -44,7 +44,17 @@ Este repositorio incluye todas las pruebas automatizadas del proyecto de rotaci�
 
 ## Uso
 
+Para ejecutar tus pruebas, asegúrate de haber activado tu entorno virtual y tener instaladas las dependencias.
 
+### Ejecutar una Prueba Específica
 
-### Ejemplo Básico
+Puedes ejecutar un archivo de prueba directamente usando:
 
+    ```bash
+    python -m unittest tests/solicitud_de_servicio/test_validacion_campos_obligatorios.py
+    ```
+### Ejecutar todos los test 
+
+    ```bash
+    python -m unittest discover -s tests/solicitud_de_servicio -p "test_*.py"
+    ```

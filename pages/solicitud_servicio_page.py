@@ -22,7 +22,9 @@ class SolicitudServicioPage:
         nuevo_boton = self.wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@title='New']")))
         nuevo_boton.click()
 
-    def llenar_formulario(self, nombre, contacto):
+    def llenar_formulario(self, nombre, contacto, request_type, state, priority, descripcion):
+
+        # Nombre de la solicitud
         campo_nombre = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='Name']")))
         campo_nombre.send_keys(nombre)
 
@@ -40,12 +42,30 @@ class SolicitudServicioPage:
         # Espera que el campo haya capturado el contacto en su valor visible
         self.wait.until(lambda driver: contacto in driver.page_source)
 
+        # Seleccionar la opción del picklist
+        self.seleccionar_opcion_picklist("Request Type", request_type)
+
+        # Selecciionar el estado
+        self.seleccionar_opcion_picklist("State", state)
+
+        # Seleccionar la prioridad
+        self.seleccionar_opcion_picklist("Priority", priority)
+
+        # Descripción
+        descripcion_area = self.wait.until(EC.visibility_of_element_located(
+            (By.XPATH, "//textarea[@class='slds-textarea' and @maxlength='255']")
+        ))
+        descripcion_area.clear()
+        descripcion_area.send_keys(descripcion)
+
+
         
     def guardar_formulario(self):
         boton_guardar = self.wait.until(
             EC.visibility_of_element_located((By.XPATH, "//button[@name='SaveEdit']"))
         )
         boton_guardar.click()
+        
 
     def obtener_errores_en_dialogo(self):
         try:
@@ -130,4 +150,6 @@ class SolicitudServicioPage:
         ))
         time.sleep(0.5)  # Pequeña espera adicional para asegurar que todo está renderizado
 
-
+    def esperar_redireccion_a_detalle(self, nombre_solicitud):
+        xpath = f"//record_flexipage-record-field//lightning-formatted-text[normalize-space(text())='{nombre_solicitud}']"
+        self.wait.until(EC.visibility_of_element_located((By.XPATH, xpath)))
