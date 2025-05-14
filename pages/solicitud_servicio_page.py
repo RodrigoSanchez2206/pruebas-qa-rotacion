@@ -84,6 +84,7 @@ class SolicitudServicioPage:
         
     def seleccionar_opcion_picklist(self, picklist, seleccion):
         try:
+            time.sleep(3)
             # 1. Esperar que el botón del picklist sea visible y clickeable
             boton_picklist = self.wait.until(
                 EC.element_to_be_clickable((By.XPATH, f"//button[@aria-label='{picklist}']"))
@@ -153,3 +154,21 @@ class SolicitudServicioPage:
     def esperar_redireccion_a_detalle(self, nombre_solicitud):
         xpath = f"//record_flexipage-record-field//lightning-formatted-text[normalize-space(text())='{nombre_solicitud}']"
         self.wait.until(EC.visibility_of_element_located((By.XPATH, xpath)))
+
+    def obtener_tecnico_asignado(self):
+        try:
+            # Esperar que aparezca un link dentro del campo "Técnico Asignado"
+            tecnico_link = self.wait.until(
+                EC.element_to_be_clickable((
+                    By.XPATH, "//records-hoverable-link//a[contains(@href, '/lightning/r/Tecnico_de_Servicio__c')]"
+                ))
+            )
+            # Scroll hasta el enlace y clic
+            self.driver.execute_script("arguments[0].scrollIntoView(true);", tecnico_link)
+            tecnico_texto = tecnico_link.text
+            print(f"✅ Técnico asignado encontrado: {tecnico_texto}")
+            self.driver.execute_script("arguments[0].click();", tecnico_link)
+        except TimeoutException:
+            self.driver.save_screenshot("error_tecnico_asignado.png")
+            raise Exception("❌ No se pudo encontrar ni hacer clic en el técnico asignado.")
+        
