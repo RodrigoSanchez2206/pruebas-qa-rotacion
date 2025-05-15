@@ -229,8 +229,8 @@ class creacionTecnicos:
             print(f"✅ Se detectó error de validación en la lista de errores: '{mensaje}'")
 
             # Validar que el mensaje menciona el campo requerido
-            assert "apellido" in mensaje.lower() or "required" in mensaje.lower(), \
-                f"❌ El mensaje no parece referirse al campo 'Nombre': '{mensaje}'"
+            assert "especialidad" in mensaje.lower() or "required" in mensaje.lower(), \
+                f"❌ El mensaje no parece referirse al campo 'Especialidad': '{mensaje}'"
 
         except Exception as e:
-            raise AssertionError(f"❌ No se detectó validación para campo 'Apellido' mediante data-index: {e}")    
+            raise AssertionError(f"❌ No se detectó validación para campo 'Especialidad' mediante data-index: {e}")    
