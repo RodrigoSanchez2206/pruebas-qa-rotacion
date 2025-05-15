@@ -150,6 +150,7 @@ class SolicitudServicioPage:
         xpath = f"//record_flexipage-record-field//lightning-formatted-text[normalize-space(text())='{nombre_solicitud}']"
         self.wait.until(EC.visibility_of_element_located((By.XPATH, xpath)))
 
+
     def obtener_tecnico_asignado(self):
         try:
             # Esperar que aparezca un link dentro del campo "Técnico Asignado"
