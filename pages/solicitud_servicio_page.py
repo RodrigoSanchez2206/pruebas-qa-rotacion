@@ -153,3 +153,16 @@ class SolicitudServicioPage:
     def esperar_redireccion_a_detalle(self, nombre_solicitud):
         xpath = f"//record_flexipage-record-field//lightning-formatted-text[normalize-space(text())='{nombre_solicitud}']"
         self.wait.until(EC.visibility_of_element_located((By.XPATH, xpath)))
+
+
+    def verificar_enlace_por_texto(self, texto_visible):
+        """
+        Verifica si existe un enlace con el texto visible especificado y si está visible.
+        Lanza una excepción si el enlace no es visible.
+        """
+        try:
+            elemento = self.driver.find_element(By.LINK_TEXT, texto_visible)
+            if not elemento.is_displayed():
+                raise Exception(f"❌ El enlace con el texto '{texto_visible}' no está visible.")
+        except Exception as e:
+            raise Exception(f"⚠️ Error al verificar el enlace: {e}")
