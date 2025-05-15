@@ -57,15 +57,12 @@ class SolicitudServicioPage:
         ))
         descripcion_area.clear()
         descripcion_area.send_keys(descripcion)
-
-
         
     def guardar_formulario(self):
         boton_guardar = self.wait.until(
             EC.visibility_of_element_located((By.XPATH, "//button[@name='SaveEdit']"))
         )
-        boton_guardar.click()
-        
+        boton_guardar.click()        
 
     def obtener_errores_en_dialogo(self):
         try:
@@ -128,7 +125,6 @@ class SolicitudServicioPage:
             print(f"[ERROR] No se pudo seleccionar '{seleccion}' en el picklist '{picklist}': {e}")
             raise
 
-
     def esperar_actualizacion_valor_picklist(self, picklist, valor_esperado, timeout=20):
         end_time = time.time() + timeout
         while time.time() < end_time:
@@ -143,7 +139,6 @@ class SolicitudServicioPage:
                 print(f"[DEBUG] Error al obtener texto del picklist: {e}")
             time.sleep(0.5)
         raise TimeoutException(f"No se actualizó el valor del picklist '{picklist}' a '{valor_esperado}' dentro del tiempo límite.")
-
 
     def esperar_formulario_listo(self, picklist):
         self.wait.until(EC.visibility_of_element_located(
@@ -172,3 +167,45 @@ class SolicitudServicioPage:
             self.driver.save_screenshot("error_tecnico_asignado.png")
             raise Exception("❌ No se pudo encontrar ni hacer clic en el técnico asignado.")
         
+    def entrar_a_solicitud(self):
+        try:
+            # Buscar el primer enlace que lleva al detalle del registro
+            boton_solicitud = self.wait.until(
+                EC.element_to_be_clickable((By.XPATH, "//a[contains(@class, 'outputLookupLink')]"))
+            )
+            boton_solicitud.click()
+            # Esperar a que el formulario de detalle esté visible
+            self.wait.until(EC.visibility_of_element_located((By.XPATH, "//a[@class='slds-tabs_default__link' and @data-label='Details']")))
+        except TimeoutException as e:
+            print(f"No se pudo entrar al registro: {e}")
+
+    def actualizar_estado(self, nuevo_estado):
+        nombre_solicitud = self.obtener_nombre_solicitud()
+        try:
+            boton_editar_estado = self.wait.until(
+                EC.element_to_be_clickable((
+                    By.XPATH, "//button[contains(@class, 'test-id__inline-edit-trigger') and @title='Edit State']"
+                ))
+            )
+            boton_editar_estado.click()
+            #Esperar a que el menú de opciones esté visible
+            self.seleccionar_opcion_picklist("State", nuevo_estado)
+            self.guardar_formulario()
+            return nombre_solicitud
+            
+        except TimeoutException as e:
+            print(f"No se pudo actualizar el estado a '{nuevo_estado}': {e}")
+
+    def obtener_nombre_solicitud(self):
+        try:
+            # Esperar a que el nombre de la solicitud esté visible
+            nombre_solicitud = self.wait.until(
+                EC.presence_of_element_located((
+                By.XPATH,
+                "//div[@data-target-selection-name='sfdc:RecordField.Solicitud_de_Servicio__c.Name']//lightning-formatted-text"
+                ))
+            )
+            return nombre_solicitud.text
+        except TimeoutException as e:
+            print(f"No se pudo obtener el nombre de la solicitud: {e}")
+            return None
