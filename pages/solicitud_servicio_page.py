@@ -155,20 +155,6 @@ class SolicitudServicioPage:
         xpath = f"//record_flexipage-record-field//lightning-formatted-text[normalize-space(text())='{nombre_solicitud}']"
         self.wait.until(EC.visibility_of_element_located((By.XPATH, xpath)))
 
-<<<<<<< HEAD
-
-    def verificar_enlace_por_texto(self, texto_visible):
-        """
-        Verifica si existe un enlace con el texto visible especificado y si está visible.
-        Lanza una excepción si el enlace no es visible.
-        """
-        try:
-            elemento = self.driver.find_element(By.LINK_TEXT, texto_visible)
-            if not elemento.is_displayed():
-                raise Exception(f"❌ El enlace con el texto '{texto_visible}' no está visible.")
-        except Exception as e:
-            raise Exception(f"⚠️ Error al verificar el enlace: {e}")
-=======
     def obtener_tecnico_asignado(self):
         try:
             # Esperar que aparezca un link dentro del campo "Técnico Asignado"
@@ -186,4 +172,4 @@ class SolicitudServicioPage:
             self.driver.save_screenshot("error_tecnico_asignado.png")
             raise Exception("❌ No se pudo encontrar ni hacer clic en el técnico asignado.")
         
->>>>>>> 2aacf56922499a6c7d3f299e5ab35655af3fc568
+
