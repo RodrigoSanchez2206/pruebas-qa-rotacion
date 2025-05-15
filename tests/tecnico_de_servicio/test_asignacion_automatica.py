@@ -4,7 +4,7 @@ from pages.solicitud_servicio_page import SolicitudServicioPage
 from selenium.webdriver.common.by import By
 from pages.tecnicos_de_servicio_page import TecnicosDeServicioPage
 
-class TestEnvioDeSolicitud(BaseTest):
+class TestAsignacionAutomatica(BaseTest):
 
     def test_asignacion_automatica_reparacion(self):
         solicitud_page = SolicitudServicioPage(self.driver)
