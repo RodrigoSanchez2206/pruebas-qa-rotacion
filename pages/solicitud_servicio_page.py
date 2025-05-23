@@ -23,7 +23,7 @@ class SolicitudServicioPage:
         nuevo_boton.click()
 
 
-    def llenar_formulario(self, nombre, contacto, request_type, state, priority, descripcion):
+    def llenar_formulario(self, nombre, contacto, request_type, state, priority, descripcion,):
 
         # Nombre de la solicitud
         campo_nombre = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='Name']")))
@@ -58,6 +58,69 @@ class SolicitudServicioPage:
         ))
         descripcion_area.clear()
         descripcion_area.send_keys(descripcion)
+
+
+    def llenar_formulario_con_ubicacion(self, nombre, contacto, request_type, state, priority, descripcion, calle, numero, colonia, pais, codigo_postal, ciudad):
+                # Nombre de la solicitud
+        campo_nombre = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='Name']")))
+        campo_nombre.send_keys(nombre)
+
+        # Hacer clic primero en el campo de búsqueda de contacto
+        campo_contacto = self.wait.until(EC.element_to_be_clickable((By.XPATH, "//input[@placeholder='Search Contacts...']")))
+        campo_contacto.click()
+        campo_contacto.clear()
+        campo_contacto.send_keys(contacto)
+
+        # Esperar el resultado del dropdown y hacer clic
+        contacto_resultado = self.wait.until(EC.element_to_be_clickable(
+            (By.XPATH, f"//lightning-base-combobox-formatted-text[@title='{contacto}']")))
+        contacto_resultado.click()
+
+        # Espera que el campo haya capturado el contacto en su valor visible
+        self.wait.until(lambda driver: contacto in driver.page_source)
+
+        # Seleccionar la opción del picklist
+        self.seleccionar_opcion_picklist("Request Type", request_type)
+
+        # Selecciionar el estado
+        self.seleccionar_opcion_picklist("State", state)
+
+        # Seleccionar la prioridad
+        self.seleccionar_opcion_picklist("Priority", priority)
+
+        # Descripción
+        descripcion_area = self.wait.until(EC.visibility_of_element_located(
+            (By.XPATH, "//textarea[@class='slds-textarea' and @maxlength='255']")
+        ))
+        descripcion_area.clear()
+        descripcion_area.send_keys(descripcion)
+
+        # Calle
+        campo_calle = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='Calle__c']")))
+        campo_calle.clear()
+        campo_calle.send_keys(calle)
+        # Número
+        campo_numero = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='Numero__c']")))
+        campo_numero.clear()
+        campo_numero.send_keys(numero)
+        # Colonia       
+        campo_colonia = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='Colonia__c']")))
+        campo_colonia.clear()
+        campo_colonia.send_keys(colonia)
+        # País
+        campo_pais = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='Pais__c']")))
+        campo_pais.clear()
+        campo_pais.send_keys(pais)  
+        # Código Postal
+        campo_codigo_postal = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='Codigo_Postal__c']")))
+        campo_codigo_postal.clear()
+        campo_codigo_postal.send_keys(codigo_postal)
+        # ciudad
+        campo_ciudad = self.wait.until(EC.visibility_of_element_located((By.XPATH, "//input[@name='Ciudad__c']")))
+        campo_ciudad.clear()
+        campo_ciudad.send_keys(ciudad)
+   
+        
         
     def guardar_formulario(self):
         boton_guardar = self.wait.until(
@@ -233,3 +296,12 @@ class SolicitudServicioPage:
         except TimeoutException as e:
             print(f"No se pudo obtener la longitud: {e}")
             return None
+        
+    def obtener_valor_ubicacion(self):
+        # Esperar a que aparezca el campo de ubicación por su contenido visible
+        ubicacion_elemento = self.wait.until(EC.presence_of_element_located((
+            By.XPATH,
+            "//span[contains(@class, 'test-id__field-value')]//lightning-formatted-location"
+        )))
+
+        return ubicacion_elemento.text
