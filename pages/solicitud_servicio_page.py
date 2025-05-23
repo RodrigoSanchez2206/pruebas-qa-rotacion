@@ -22,6 +22,7 @@ class SolicitudServicioPage:
         nuevo_boton = self.wait.until(EC.element_to_be_clickable((By.XPATH, "//a[@title='New']")))
         nuevo_boton.click()
 
+
     def llenar_formulario(self, nombre, contacto, request_type, state, priority, descripcion):
 
         # Nombre de la solicitud
@@ -209,4 +210,26 @@ class SolicitudServicioPage:
             return nombre_solicitud.text
         except TimeoutException as e:
             print(f"No se pudo obtener el nombre de la solicitud: {e}")
+            return None
+        
+    def obtener_latitud(self):
+        try:
+            # Esperar a que el campo de latitud esté visible
+            latitud = self.wait.until(
+                EC.presence_of_element_located((By.XPATH, "//input[@name='latitude']"))
+            )
+            return latitud
+        except TimeoutException as e:
+            print(f"No se pudo obtener la latitud: {e}")
+            return None
+        
+    def obtener_longitud(self):
+        try:
+            # Esperar a que el campo de longitud esté visible
+            longitud = self.wait.until(
+                EC.presence_of_element_located((By.XPATH, "//input[@name='longitude']"))
+            )
+            return longitud
+        except TimeoutException as e:
+            print(f"No se pudo obtener la longitud: {e}")
             return None
