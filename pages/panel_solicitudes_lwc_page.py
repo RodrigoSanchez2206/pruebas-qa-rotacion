@@ -115,14 +115,11 @@ class PanelSolicitudesLWC:
                             opcion.click()  # Hacer clic en la opción correcta
                             print(f"Opción '{nuevo_estado}' seleccionada.")
                             break
-
                     # Verificar que el estado se haya actualizado correctamente
                     time.sleep(6)
                     estado_actual = self.get_estado(nombre_solicitud)  # Estado ya limpio de "Estado: "
                     return estado_actual.lower() == nuevo_estado.lower()  # Retorna True si el estado es correcto
-
             except Exception as e:
                 print(f"Error: {e}")
                 continue
-
         return False  # Si no se encontró la solicitud o hubo algún error, retornamos False

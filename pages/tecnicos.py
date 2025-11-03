@@ -230,7 +230,7 @@ class creacionTecnicos:
 
             # Validar que el mensaje menciona el campo requerido
             assert "especialidad" in mensaje.lower() or "required" in mensaje.lower(), \
-                f"❌ El mensaje no parece referirse al campo 'Especialidad': '{mensaje}'"
+                f"❌ El mensaje no parece referasfasfdirse al campo 'Especialidad': '{mensaje}'"
 
         except Exception as e:
             raise AssertionError(f"❌ No se detectó validación para campo 'Especialidad' mediante data-index: {e}")    

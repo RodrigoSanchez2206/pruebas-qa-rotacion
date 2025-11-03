@@ -20,8 +20,8 @@ class TestUbicacionCliente(BaseTest):
         # Validar que el campo de ubicación esté presente
         latitud = solicitud_page.obtener_latitud()
         longitud = solicitud_page.obtener_longitud()
-        assert latitud.is_displayed(), "El campo de latitud no está visible en el formulario."
-        assert longitud.is_displayed(), "El campo de longitud no está visible en el formulario."
+        assert latitud.is_displayed(), "El campo de latitud no está visible en el formulario1223."
+        assert longitud.is_displayed(), "El campo de longitud no está visible en el formulario12312."
 
     
     def test_validar_ubicacion_cliente(self):
